@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('partials/head') %>
+<body>
+    <%- include('partials/flash') %>
+    <h1><%= title %></h1>
+    <% if(!locals.user){ %>
+        <p>You must first <a href="/login">Login</a> to become a member</p>
+    <% }else if(user.membership_status){ %>
+        <p>You are already a member</p>
+    <% }else{  %>
+        <form action="/update-member-status" method="POST">
+            <input type="text" name="userId" value="<%= user.id %>" hidden>
+            <h2>Answer the riddle to become a member</h2>
+            <p><b>What word is always spelled wrong?</b></p>
+            <textarea name="answer" id="answer"></textarea>
+            <button>Submit</button>
+        </form>
+    <% } %>
+</body>
+</html>

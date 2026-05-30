@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('partials/head') %>
+<body>
+    <h1><%= title %></h1>
+    <% if(!locals.user){ %>
+        <p>You must first <a href="/login">Login</a> to become an admin</p>
+    <% }else if(!user.membership_status){ %>
+        <p>You must first <a href="/become-member">become a member</a> to be an admin</p>
+    <% }else if(user.is_admin){ %>
+        <p>You are already an admin</p>
+    <% }else{  %>
+        <form action="/update-admin-status" method="POST">
+            <input type="text" name="userId" value="<%= user.id %>" hidden>
+            <h2>Answer the riddle to become an admin:</h2>
+            <p>Riddle</p>
+            <label for="answer">Answer</label>
+            <textarea name="answer" id="answer"></textarea>
+            <button>Submit</button>
+        </form>
+    <% } %>
+</body>
+</html>

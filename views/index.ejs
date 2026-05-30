@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('partials/head') %>
+
+<body>
+    <%- include('partials/flash',{flash: flashSuccess}) %>
+    <%- include('partials/flash',{flash: flashError}) %>
+    <nav>
+        <% if(!locals.user){ %>
+            <a href="/login">Login</a>
+        <% }else{ %>
+            <a href="/logout">Logout</a>
+            <p><%= locals.user.username %></p>
+            <% if(!user.membership_status){ %>
+                <a href="/become-member">Become a member of the club</a>
+            <% }else{ %>
+                <% if(!user.is_admin){ %>
+                    <a href="/become-admin">Become an admin of the club</a>
+                <% } %>
+            <% } %>
+        <% } %>
+    </nav>
+    
+    <% if(locals.user){ %>
+        <div>
+            <h1><%= title %></h1>
+            <a href="/new-message">New message</a>
+        </div>
+    <% }else{ %>
+        <div>
+            <h1><%= title %></h1>
+            <a href="/new-message" class="disabled" title="Login to post a message">New message</a>
+        </div>
+    <% } %>
+
+    <main>
+
+        <% messages.forEach(message=>{ %>
+            <article>
+                <div>
+                    <% if(locals.user && user.is_admin){ %>
+                        <div>
+                            <h2><%= message.title %></h2>
+                            <a href="/delete/<%= message.id %>">Delete</a>
+                        </div>
+                    <% }else{ %>
+                        <h2><%= message.title %></h2>
+                    <% } %>
+                    
+                    <% if(!locals.user) {%> 
+                        <p title="Login and become a member to see this">Author: ???</p>
+                        <p title="Login and become a member to see this">Created at: **/**/***</p>
+                    <% } else if(!user.membership_status){%>
+                        <p title="Become a member to see this">Author: ???</p>
+                        <p title="Become a member to see this">Created at: **/**/***</p>
+                    <% }else{ %>
+                        <p>Author: <%= user.first_name %> <%= user.last_name %> (<%= user.username %>)</p>
+                        <p>Created at: <%= message.created_at %></p>
+                    <% } %>
+                </div>
+                <p></p>
+            </article>
+        <% })%>
+
+        
+    </main>
+</body>
+</html>

@@ -1,0 +1,9 @@
+<% if(locals.flash){ %>
+    <div class="<%= flash.type %>">
+        <ul>
+            <% flash.messages.forEach(message=> {%>
+                <li><%= message %></li>
+            <% }) %>
+        </ul>
+    </div>
+<% } %>

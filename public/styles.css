@@ -1,0 +1,7 @@
+.disabled{
+    color: darkgrey;
+}
+
+.disabled:active{
+    pointer-events: none;
+}
