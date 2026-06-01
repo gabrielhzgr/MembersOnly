@@ -50,24 +50,22 @@ app.use(session({
         maxAge: 1000 * 60 * 60 * 48 
     }
 }))
-
-
-
 //PASSPORT AUTHENTICATION
 passport.use(
-    new LocalStrategy(async (username, password, done)=>{
+    new LocalStrategy({passReqToCallback: true}, async (req, username, password, done)=>{
         try {
             const {rows} = await pool.query('SELECT * FROM users WHERE username = $1', [username])
             const user = rows[0]
 
             if(!user){
-                return done(null, false, {message: 'Incorrect username'})
+                return done(null, false, req.flash('error', 'Incorrect username'))
             }
             let match = await bcrypt.compare(password,user.password)
             if(!match){
-                return done(null, false, {message: 'Incorrect password'})
+                return done(null, false, req.flash('error','Incorrect password'))
+            }else{
+                return done(null, user, req.flash('success', 'Logged in'))
             }
-            return done(null, user, {message: 'Logged in successfully'})
         } catch (err) {
             return done(err)
         }
@@ -91,6 +89,7 @@ passport.deserializeUser(async (id, done)=>{
 
 app.use(passport.session())
 app.use(flash())
+
 
 
 

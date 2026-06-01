@@ -8,6 +8,7 @@
     <nav>
         <% if(!locals.user){ %>
             <a href="/login">Login</a>
+            <a href="/sign-up">Sign Up</a>
         <% }else{ %>
             <a href="/logout">Logout</a>
             <p><%= locals.user.username %></p>
@@ -57,6 +58,7 @@
                         <p>Author: <%= user.first_name %> <%= user.last_name %> (<%= user.username %>)</p>
                         <p>Created at: <%= message.created_at %></p>
                     <% } %>
+                    <p><%= message.message %></p>
                 </div>
                 <p></p>
             </article>

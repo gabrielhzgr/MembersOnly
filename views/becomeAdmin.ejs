@@ -13,9 +13,8 @@
         <form action="/update-admin-status" method="POST">
             <input type="text" name="userId" value="<%= user.id %>" hidden>
             <h2>Answer the riddle to become an admin:</h2>
-            <p>Riddle</p>
-            <label for="answer">Answer</label>
-            <textarea name="answer" id="answer"></textarea>
+            <p>What gets wet while drying?</p>
+            <textarea name="answer" id="answer" placeholder="Answer"></textarea>
             <button>Submit</button>
         </form>
     <% } %>
