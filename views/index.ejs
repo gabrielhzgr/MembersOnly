@@ -10,8 +10,22 @@
             <a href="/login">Login</a>
             <a href="/sign-up">Sign Up</a>
         <% }else{ %>
-            <a href="/logout">Logout</a>
-            <p><%= locals.user.username %></p>
+            <div class="account">
+                <div class="overview">
+                    <img src="/account_icon.png">
+                    <p><%= user.first_name %></p>
+                </div>
+                <div class="info">
+                    <p><%= user.first_name %> <%= user.last_name %></p>
+                    <p><%= user.username %></p>
+                    <p>You are <%= !user.membership_status ? 'not' : null%> a member</p>
+                    <p>You are <%= !user.is_admin ? 'not' : null%> an admin</p>
+
+                    <a href="/logout">Logout</a>
+                </div>
+            </div>
+            
+            
             <% if(!user.membership_status){ %>
                 <a href="/become-member">Become a member of the club</a>
             <% }else{ %>
@@ -23,12 +37,12 @@
     </nav>
     
     <% if(locals.user){ %>
-        <div>
+        <div class="title">
             <h1><%= title %></h1>
             <a href="/new-message">New message</a>
         </div>
     <% }else{ %>
-        <div>
+        <div class="title">
             <h1><%= title %></h1>
             <a href="/new-message" class="disabled" title="Login to post a message">New message</a>
         </div>
@@ -40,9 +54,9 @@
             <article>
                 <div>
                     <% if(locals.user && user.is_admin){ %>
-                        <div>
+                        <div class="title">
                             <h2><%= message.title %></h2>
-                            <a href="/delete/<%= message.id %>">Delete</a>
+                            <a href="/delete/<%= message.id %>" class="delete btn">Delete</a>
                         </div>
                     <% }else{ %>
                         <h2><%= message.title %></h2>
@@ -66,5 +80,13 @@
 
         
     </main>
+    <script>
+        const overview = document.querySelector('.overview')
+        overview.addEventListener('click',(e)=>{
+            overview.classList.toggle('active')
+            const account = document.querySelector('.account')
+            account.classList.toggle('active')
+        })
+    </script>
 </body>
 </html>

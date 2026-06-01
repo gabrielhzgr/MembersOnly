@@ -56,7 +56,6 @@ const createUser = [validateUser, async (req,res,next)=>{
     try{
         const errors = validationResult(req)
         if(!errors.isEmpty()){
-            //TODO por que no esta renderizando bien cuando hya errores
             res.status(400).render('signUp',{title: 'Sign Up', errors: errors.array()})
             return
         }
