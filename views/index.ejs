@@ -3,16 +3,28 @@
 <%- include('partials/head') %>
 
 <body>
-    <%- include('partials/flash',{flash: flashSuccess}) %>
-    <%- include('partials/flash',{flash: flashError}) %>
+    
+    
     <nav>
+        <%- include('partials/flash',{flash: flashSuccess}) %>
+        <%- include('partials/flash',{flash: flashError}) %>
         <% if(!locals.user){ %>
-            <a href="/login">Login</a>
-            <a href="/sign-up">Sign Up</a>
+            <div>
+                <span class="material-symbols-outlined">
+                    Login
+                </span><a href="/login">Login</a>
+            </div>
+            <div>
+                <span class="material-symbols-outlined">
+                    app_registration
+                </span><a href="/sign-up">Sign Up</a>
+            </div>
         <% }else{ %>
             <div class="account">
-                <div class="overview">
-                    <img src="/account_icon.png">
+                <div class="overview btn">
+                    <span class="material-symbols-outlined">
+                        account_circle
+                    </span>
                     <p><%= user.first_name %></p>
                 </div>
                 <div class="info">
@@ -20,11 +32,9 @@
                     <p><%= user.username %></p>
                     <p>You are <%= !user.membership_status ? 'not' : null%> a member</p>
                     <p>You are <%= !user.is_admin ? 'not' : null%> an admin</p>
-
                     <a href="/logout">Logout</a>
                 </div>
             </div>
-            
             
             <% if(!user.membership_status){ %>
                 <a href="/become-member">Become a member of the club</a>
@@ -37,44 +47,73 @@
     </nav>
     
     <% if(locals.user){ %>
-        <div class="title">
-            <h1><%= title %></h1>
-            <a href="/new-message">New message</a>
+        <div class="main title">
+            <div class="info">
+                <h1><%= title %></h1>
+                <a href="/new-message" class="btn create">
+                    <span class="material-symbols-outlined">
+                        add
+                    </span>     
+                    New message
+                </a>
+            </div>
         </div>
     <% }else{ %>
-        <div class="title">
-            <h1><%= title %></h1>
-            <a href="/new-message" class="disabled" title="Login to post a message">New message</a>
-        </div>
+        <div class="main title">
+            <div class="info">
+                <h1><%= title %></h1>
+                <a href="/new-message" class="disabled" title="Login to post a message">New message</a>
+            </div>
+        </div>       
     <% } %>
 
     <main>
-
         <% messages.forEach(message=>{ %>
             <article>
-                <div>
+                <div class="header">
+                    <h2><%= message.title %></h2>    
+                    <div>
+                        <% if(!locals.user){ %>
+                            <p class="author" title="Login and become a member to see this">
+                                <span class="material-symbols-outlined">
+                                    article_person
+                                </span>Author: ???
+                            </p>
+                            <p class="date" title="Login and become a member to see this">
+                                <span class="material-symbols-outlined">
+                                    date_range
+                                </span>Created at: **/**/***</p>
+                        <% } else if(!user.membership_status){ %>
+                            <p class="author" title="Become a member to see this">
+                                <span class="material-symbols-outlined">
+                                    article_person
+                                </span> Author: ???</p>
+                            <p class="date" title="Become a member to see this">
+                                <span class="material-symbols-outlined">
+                                    date_range
+                                </span>Created at: **/**/***</p>
+                        <% } else{ %>
+                            <p class="author">
+                                <span class="material-symbols-outlined">
+                                    article_person
+                                </span> <%= user.first_name %> <%= user.last_name %> (<%= user.username %>)</p>
+                            <p class="date">
+                                <span class="material-symbols-outlined">
+                                    date_range
+                                </span><%= new Date(message.created_at).toLocaleString() %>
+                            </p>
+                        <% } %>
+                    </div>
                     <% if(locals.user && user.is_admin){ %>
-                        <div class="title">
-                            <h2><%= message.title %></h2>
-                            <a href="/delete/<%= message.id %>" class="delete btn">Delete</a>
-                        </div>
-                    <% }else{ %>
-                        <h2><%= message.title %></h2>
+                        <a href="/delete/<%= message.id %>" class="delete btn">
+                            <span class="material-symbols-outlined">
+                                delete
+                            </span>
+                            Delete
+                        </a>
                     <% } %>
-                    
-                    <% if(!locals.user) {%> 
-                        <p title="Login and become a member to see this">Author: ???</p>
-                        <p title="Login and become a member to see this">Created at: **/**/***</p>
-                    <% } else if(!user.membership_status){%>
-                        <p title="Become a member to see this">Author: ???</p>
-                        <p title="Become a member to see this">Created at: **/**/***</p>
-                    <% }else{ %>
-                        <p>Author: <%= user.first_name %> <%= user.last_name %> (<%= user.username %>)</p>
-                        <p>Created at: <%= message.created_at %></p>
-                    <% } %>
-                    <p><%= message.message %></p>
-                </div>
-                <p></p>
+                </div> 
+                <p class="message"><%= message.message %></p>
             </article>
         <% })%>
 
@@ -82,11 +121,17 @@
     </main>
     <script>
         const overview = document.querySelector('.overview')
-        overview.addEventListener('click',(e)=>{
-            overview.classList.toggle('active')
-            const account = document.querySelector('.account')
-            account.classList.toggle('active')
-        })
+        if(overview){
+            overview.addEventListener('click',(e)=>{
+                overview.classList.toggle('active')
+                const account = document.querySelector('.account')
+                account.classList.toggle('active')
+            })
+        } 
+        /*
+        TODO: Agregar que la hacer click fuera del info 
+        que aparece al hacer click en overview se esconda la info
+        */
     </script>
 </body>
 </html>

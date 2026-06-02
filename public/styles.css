@@ -1,3 +1,5 @@
+
+
 *{
     padding: 0;
     margin: 0;
@@ -14,43 +16,137 @@ body{
     position: relative;
 }
 
+li{
+    list-style-type: none;
+}
 
-@keyframes appear {
-    from{
+main{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+}
+
+form{
+    background-color: palegreen;
+    box-shadow: -4px 7px 0px lightblue;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    width: 60%;
+}
+
+form > h1{
+    background-color: white;
+    box-shadow: -4px 4px 0px black;
+    color: black;
+    margin-bottom: 30px;
+}
+
+form > .field{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 10px;
+    width: 100%;
+}   
+
+form input, textarea{
+    background-color: transparent;
+    border: none;
+    outline: none;
+    border-bottom: medium solid black;
+    padding: 10px;
+    transition: all 0.4s ease;
+    width: 80%;
+}
+
+textarea:focus ,input:focus{
+    border-bottom: 4px solid black;
+}
+
+.field > label{
+    background-color: black;
+    box-shadow: -4px 4px 0px white;
+    color: white;
+}
+
+form p{
+    margin-top: 15px;
+}
+
+@keyframes flash {
+    0%{
         top: -100%;
     }
 
-    75%{
+    50%{
         top: 0%;
     }
 
-    to{
+    100%{
         top: -100%;
     }
 }
 
 .flash{
-    top: -100%;
     position: absolute;
     width: 100%;
     height: 100px;
-    animation: appear 3s 1;
+    animation: flash 3s forwards;
     z-index: 1;
-}
-
-.flash.success{
-    background-color: palegreen;
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+.success{
+    background-color: palegreen;
     color: darkgreen;
 }
 
-.flash.success li{
-    list-style-type: none;
+.error{
+    background-color: lightcoral;
+    color: darkred;
 }
 
+@keyframes permanent-flash {
+    0%{
+        bottom: -100px;
+    }
+
+    100%{
+        bottom: 0px;
+    }
+}
+
+.permanent-flash{
+    position: absolute;
+    width: 100%;
+    height: 100px;
+    animation: permanent-flash 3s forwards;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+span.close{
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    border: medium solid darkred;
+    cursor: pointer;
+    padding: 3px;
+}
+
+
+
 nav{
+    position: relative;
     width: 100%;
     height: 100px;
     display: flex;
@@ -59,17 +155,38 @@ nav{
     box-shadow: 5px 0px 5px grey;
     gap: 10px;
     padding: 5px;
+    background-color: whitesmoke;
+    
+}
+
+nav div{
+    display: flex;
+    align-items: center;
+    gap: 5px;
 }
 
 .title{
     display: flex;
     align-items: center;
     gap: 20px;
+    padding: 10px;
+}
+.main.title{
+    justify-content: center; 
+    border-bottom: thin solid black;
+    margin-bottom: 50px;  
+    position: relative;
+    height: 50px;
 }
 
-.btn{
+.main.title > .info{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    position: absolute;
+    top: 30%;
+    background-color: white;
     padding: 10px;
-    border-radius: 10px;
 }
 
 .account{
@@ -79,23 +196,23 @@ nav{
     
     padding: 5px;
     position: relative;
+    user-select: none;
 }
 
 .account > .overview{
     display: flex;
     gap: 5px;
     cursor: pointer;
-    box-shadow: 5px 0px 5px grey;
-    border-radius: 15px;
-    padding: 5px;
-}
-.overview.active{
-   box-shadow: none; 
+    border: thin solid black;
+    background-color: white;
 }
 
 .account > .info{
     display: none;
     position: absolute;
+    background-color: white;
+    padding: 10px;
+    z-index: 1;
 }
 
 .account.active > .info{
@@ -103,23 +220,101 @@ nav{
     flex-direction: column;
     align-items: center;
     top: 40px;
-    box-shadow: 5px 0px 5px grey;
+    box-shadow: -4px 4px 0px grey;
     border-radius: 15px;
     background-color: white;
-
+    right: 5%;
 }
 
-a.delete{
+.btn{
+    padding: 5px;
+    border-radius: 10px;
     text-decoration: none;
-    
+    box-shadow: -4px 4px 0px black;
+    display: flex;
+    align-items: center;
+    transition: all 0.2s ease;
+}
+
+/*
+TODO: Refinar el estilo de los botones
+para que parezca que se aplasten al hacer 
+click no al hacer hover. Debo usar e.preventDefault()
+y e.click para estos links que son botones
+*/
+
+.btn.delete{
+    border: medium solid darkred;
+    background-color: white;
+    color: darkred;
+}
+
+.btn.delete:hover{
+    background-color: lightcoral;
+    color: darkred;
+    box-shadow: 0px 0px 6px darkred inset;
+}
+
+.btn.create{
+    background-color: palegreen;
+    color: darkgreen;
+    border: medium solid darkgreen;
+}
+
+.btn.create:hover{
+    box-shadow: 0px 0px 6px darkgreen inset;
+}
+
+.btn:hover{
+    border: none;
+    box-shadow: none;
+}
+
+.overview:hover, .overview.active{
+    border: thin solid black;
+    box-shadow: 0px 0px 0px black inset;
+}
+
+main > article h2{
+    padding: 5px;
+    background-color: black;
     color: white;
 }
 
-a.delete-btn{
-
+main > article:not(:last-child){
+    margin-bottom: 20px;
 }
 
 
+article > .header{
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    margin-bottom: 20px;
+}
+
+article{
+    border: thin solid black;
+    border-radius: 10px;
+    padding: 10px;
+    width: 100%;
+}
+
+article p{
+    display: flex;
+    align-items: center;
+}
+
+article p.author{
+    background-color: azure;
+}
+
+
+article p.date{
+    background-color: snow;
+    justify-content: flex-end;
+    padding-right: 5px;
+}
 
 .disabled{
     color: darkgrey;

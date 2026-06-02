@@ -2,14 +2,35 @@
 <html lang="en">
 <%- include('partials/head') %>
 <body>
-    <h1><%= title %></h1>
-    <form action="/login" method="POST">
-        <label for="email">Email</label>
-        <input type="email" name="username" id="email" placeholder="user@domain.com" required>
-        <label for="password">Password</label>
-        <input type="password" name="password" id="password" required>
-        <button>Submit</button>
+    <nav>
+        <div>
+            <span class="material-symbols-outlined">
+                home
+            </span>
+            <a href="/">Messages</a>
+        </div>
+    </nav>
+    <main>
+        <form action="/login" method="POST">
+            <h1><%= title %></h1>
+            <div class="field">
+                <label for="email">Email</label>
+                <input type="email" name="username" id="email" placeholder="user@domain.com" required>
+            </div>
+            <div class="field">
+                <label for="password">Password</label>
+                <input type="password" name="password" id="password" required>
+            </div>   
+            <button class="create btn">Login</button>
+            <p>Don't have an account yet? <a href="/sign-up">Register here</a></p>
     </form>
-    <p>Don't have an account yet? <a href="/sign-up">Register here</a></p>
+
+    </main>
+   
+    
+    
+    <%- include('partials/flash',{flash: flashError}) %>
+    <!-- No flashSuccess because that case redirects to / page-->
+    <!-- This page is /login-->
 </body>
 </html>

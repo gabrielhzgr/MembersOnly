@@ -13,7 +13,7 @@ indexRouter.post('/update-admin-status', indexController.updateAdminStatus)
 indexRouter.post('/sign-up', indexController.createUser)
 indexRouter.get('/login',indexController.getLoginForm)
 indexRouter.post('/login', function (req,res,next){
-    passport.authenticate('local', {failureFlash: true, successFlash: true, failureRedirect: '/', successRedirect: '/'})(req,res,next)
+    passport.authenticate('local', {failureFlash: true, successFlash: true, failureRedirect: '/login', successRedirect: '/'})(req,res,next)
 })
 indexRouter.get('/new-message', indexController.getNewMessageForm)
 indexRouter.post('/new-message', indexController.createMessage)

@@ -8,9 +8,8 @@ async function getIndex(req,res,next){
     try {
         const messages =await pool.query('SELECT messages.id, title, created_at, message, username, first_name, last_name FROM messages JOIN users ON user_id=users.id')
         
-        // if done(null, false) was called because wrong credentials 
-        // were entered req.flash('error') will be an array
-        let flashError = req.flash('error') //login authentication error
+        
+        let flashError = req.flash('error') //become admin or member authentication error
         if(flashError.length>0){ 
             flashError = {type: 'flash error', messages: flashError}
         }else{
@@ -71,7 +70,15 @@ const createUser = [validateUser, async (req,res,next)=>{
 }]
 
 function getLoginForm(req,res,next){
-    res.render('login', {title: 'Login'})
+    // if done(null, false) was called because pf wrong credentials 
+    //req.flash('error') will be an array
+    let flashError = req.flash('error') //login authentication error
+    if(flashError.length>0){ 
+        flashError = {type: 'permanent-flash error', messages: flashError}
+    }else{
+        flashError = null
+    }
+    res.render('login', {title: 'Login', flashError})
 }
 
 const getBecomeMemberForm = (req,res,next)=>{

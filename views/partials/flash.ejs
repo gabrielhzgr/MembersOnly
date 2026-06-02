@@ -1,9 +1,15 @@
 <% if(locals.flash){ %>
     <div class="<%= flash.type %>">
+        <span class="close" title="close" >X</span>
         <ul>
             <% flash.messages.forEach(message=> {%>
                 <li><%= message %></li>
             <% }) %>
         </ul>
     </div>
+    <script>
+        document.querySelector('.close').addEventListener('click',(e)=>{
+            e.target.parentElement.remove()
+        })
+    </script>
 <% } %>

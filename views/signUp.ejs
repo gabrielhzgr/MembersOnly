@@ -3,19 +3,29 @@
 <%- include('partials/head') %>
 <%- include('partials/errors') %>
 <body>
-    <h1><%= title %></h1>
-    <form action="/sign-up" method="POST">
-        <label for="email">Email</label>
-        <input type="email" name="username" id="email" placeholder="user@domain.com" required>
-        <label for="first-name">First name</label>
-        <input type="text" name="firstName" id="first-name" required>
-        <label for="last-name">Last name</label>
-        <input type="text" name="lastName" id="last-name" required>
-        <label for="password">Password</label>
-        <input type="text" name="password" id="password" required>
-        <label for="confirm-password">Confirm password</label>
-        <input type="password" name="confirm-password" id="confirm-password" required>
-        <button>Submit</button>
-    </form>
+    <nav>
+        <div>
+            <span class="material-symbols-outlined">
+                home
+            </span>
+            <a href="/">Messages</a>
+        </div>
+    </nav>
+    <main>
+        <form action="/sign-up" method="POST">
+            <h1><%= title %></h1>
+            <label for="email">Email</label>
+            <input type="email" name="username" id="email" placeholder="user@domain.com" required>
+            <label for="first-name">First name</label>
+            <input type="text" name="firstName" id="first-name" required>
+            <label for="last-name">Last name</label>
+            <input type="text" name="lastName" id="last-name" required>
+            <label for="password">Password</label>
+            <input type="text" name="password" id="password" required>
+            <label for="confirm-password">Confirm password</label>
+            <input type="password" name="confirm-password" id="confirm-password" required>
+            <button>Submit</button>
+        </form>
+    </main>
 </body>
 </html>
