@@ -1,6 +1,6 @@
  <nav>
     <h1>Members_Only</h1>
-    <% if(!locals.user){ %>
+    <% if(!locals.currentUser){ %>
         <div>
             <span class="material-symbols-outlined">
                 Login
@@ -22,20 +22,20 @@
                 <span class="material-symbols-outlined">
                     account_circle
                 </span>
-                <p><%= user.first_name %></p>
+                <p><%= currentUser.first_name %></p>
             </div>
             <div class="info">
-                <p>Welcome,<%= user.first_name %> <%= user.last_name %></p>
-                <p><%= user.username %></p>
-                <p>You are <%= !user.membership_status ? 'not' : null%> a member</p>
-                <p>You are <%= !user.is_admin ? 'not' : null%> an admin</p>
+                <p>Welcome,<%= currentUser.first_name %> <%= currentUser.last_name %></p>
+                <p><%= currentUser.username %></p>
+                <p>You are <%= !currentUser.membership_status ? 'not' : null%> a member</p>
+                <p>You are <%= !currentUser.is_admin ? 'not' : null%> an admin</p>
                 <a href="/logout">Logout</a>
             </div>
         </div>
-        <% if(!user.membership_status){ %>
+        <% if(!currentUser.membership_status){ %>
             <a href="/become-member">Become a member of the club</a>
         <% }else{ %>
-            <% if(!user.is_admin){ %>
+            <% if(!currentUser.is_admin){ %>
                 <a href="/become-admin">Become an admin of the club</a>
             <% } %>
         <% } %>

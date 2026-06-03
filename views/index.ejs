@@ -6,7 +6,7 @@
     <%- include('partials/flash',{flash: locals.flashSuccess}) %>
     <%- include('partials/flash',{flash: locals.flashError}) %>
     <%- include('partials/nav') %>
-    <% if(locals.user){ %>
+    <% if(locals.currentUser){ %>
         <div class="main title">
             <div class="info">
                 <h2>Messages</h2>
@@ -33,7 +33,7 @@
                 <div class="header">
                     <h3><%= message.title %></h3>    
                     <div>
-                        <% if(!locals.user){ %>
+                        <% if(!locals.currentUser){ %>
                             <p class="author" title="Login and become a member to see this">
                                 <span class="material-symbols-outlined">
                                     article_person
@@ -43,7 +43,7 @@
                                 <span class="material-symbols-outlined">
                                     date_range
                                 </span>Created at: **/**/***</p>
-                        <% } else if(!user.membership_status){ %>
+                        <% } else if(!currentUser.membership_status){ %>
                             <p class="author" title="Become a member to see this">
                                 <span class="material-symbols-outlined">
                                     article_person
@@ -56,7 +56,7 @@
                             <p class="author">
                                 <span class="material-symbols-outlined">
                                     article_person
-                                </span> <%= user.first_name %> <%= user.last_name %> (<%= user.username %>)</p>
+                                </span> <%= currentUser.first_name %> <%= currentUser.last_name %> (<%= currentUser.username %>)</p>
                             <p class="date">
                                 <span class="material-symbols-outlined">
                                     date_range
@@ -64,7 +64,7 @@
                             </p>
                         <% } %>
                     </div>
-                    <% if(locals.user && user.is_admin){ %>
+                    <% if(locals.currentUser && currentUser.is_admin){ %>
                         <a href="/delete/<%= message.id %>" class="delete btn">
                             <span class="material-symbols-outlined">
                                 delete
@@ -75,9 +75,7 @@
                 </div> 
                 <p class="message"><%= message.message %></p>
             </article>
-        <% })%>
-
-        
+        <% })%>    
     </main>
     <%- include('partials/btnAnimation') %>
 </body>

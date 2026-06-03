@@ -90,8 +90,12 @@ passport.deserializeUser(async (id, done)=>{
 app.use(passport.session())
 app.use(flash())
 
-
-
+// middleware to have access to currentUser in views
+// avoid passing to all controllers
+app.use((req,res,next)=>{
+    res.locals.currentUser = req.user
+    next()
+})
 
 //SET ROUTERS
 

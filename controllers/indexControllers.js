@@ -2,12 +2,10 @@ const {body, validationResult } = require('express-validator')
 const pool = require('../db/pool')
 const bcrypt = require('bcryptjs')
 const {isAuth, isAdmin, isMember}= require('./authMiddleware')
-const { errorMonitor } = require('pg/lib/client')
 
 async function getIndex(req,res,next){
     try {
         const messages =await pool.query('SELECT messages.id, title, created_at, message, username, first_name, last_name FROM messages JOIN users ON user_id=users.id')
-        
         
         let flashError = req.flash('error') //become admin or member authentication error
         if(flashError.length>0){ 
@@ -22,7 +20,7 @@ async function getIndex(req,res,next){
         }else{
             flashSuccess = null
         }
-        res.render('index',{title: 'Members Only | Messages', messages: messages.rows, user: req.user, flashError, flashSuccess})
+        res.render('index',{title: 'Members Only | Messages', messages: messages.rows, flashError, flashSuccess})
     } catch (err) {
         next(err)
     }
@@ -90,7 +88,7 @@ function getLoginForm(req,res,next){
 }
 
 const getBecomeMemberForm = (req,res,next)=>{
-    res.render('becomeMember',{title: 'Become a member', user: req.user})
+    res.render('becomeMember',{title: 'Become a member'})
 }
 
 const  updateMemberStatus = [isAuth, async (req,res,next)=>{
@@ -99,7 +97,7 @@ const  updateMemberStatus = [isAuth, async (req,res,next)=>{
         userId = Number(userId)
         if(!answer.trim().toLowerCase().includes('wrong')){ //incorrect answer
             let flashError = {type: 'flash error', messages: ['Incorrect answer']}
-            return res.status(400).render('becomeMember', {title: 'Become a member', user: req.user, flashError})    
+            return res.status(400).render('becomeMember', {title: 'Become a member', flashError})    
         }
         await pool.query('UPDATE users SET membership_status=TRUE WHERE id=$1',
         [userId])
@@ -111,7 +109,7 @@ const  updateMemberStatus = [isAuth, async (req,res,next)=>{
 }]
 
 const getBecomeAdminForm = (req,res,next)=>{
-    res.render('becomeAdmin', {title: 'Become an admin', user: req.user})
+    res.render('becomeAdmin', {title: 'Become an admin'})
 }
 
 const updateAdminStatus = [isAuth, isMember, async(req,res,next)=>{
@@ -120,7 +118,7 @@ const updateAdminStatus = [isAuth, isMember, async(req,res,next)=>{
         userId = Number(userId)
         if(!answer.trim().toLowerCase().includes('towel')){
             let flashError = {type: 'flash error', messages: ['Incorrect answer']}
-            return res.status(400).render('becomeAdmin', {title: 'Become an admin', user: req.user, flashError})      
+            return res.status(400).render('becomeAdmin', {title: 'Become an admin', flashError})      
         }
         await pool.query('UPDATE users SET is_admin=TRUE WHERE id=$1',
                 [userId])
