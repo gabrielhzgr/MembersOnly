@@ -22,7 +22,7 @@ async function getIndex(req,res,next){
         }else{
             flashSuccess = null
         }
-        res.render('index',{title: 'Messages', messages: messages.rows, user: req.user, flashError, flashSuccess})
+        res.render('index',{title: 'Members Only | Messages', messages: messages.rows, user: req.user, flashError, flashSuccess})
     } catch (err) {
         next(err)
     }
@@ -74,7 +74,7 @@ function getLoginForm(req,res,next){
     //req.flash('error') will be an array
     let flashError = req.flash('error') //login authentication error
     if(flashError.length>0){ 
-        flashError = {type: 'permanent-flash error', messages: flashError}
+        flashError = {type: 'flash error', messages: flashError}
     }else{
         flashError = null
     }

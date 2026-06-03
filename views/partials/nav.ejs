@@ -1,0 +1,43 @@
+ <nav>
+    <h1>Members_Only</h1>
+    <% if(!locals.user){ %>
+        <div>
+            <span class="material-symbols-outlined">
+                Login
+            </span><a href="/login">Login</a>
+        </div>
+        <div>
+            <span class="material-symbols-outlined">
+                app_registration
+            </span><a href="/sign-up">Sign Up</a>
+        </div>
+        <div>
+            <span class="material-symbols-outlined">
+                home
+            </span><a href="/">Messages</a>
+        </div>
+    <% }else{ %>
+        <div class="account">
+            <div class="overview btn">
+                <span class="material-symbols-outlined">
+                    account_circle
+                </span>
+                <p><%= user.first_name %></p>
+            </div>
+            <div class="info">
+                <p>Welcome,<%= user.first_name %> <%= user.last_name %></p>
+                <p><%= user.username %></p>
+                <p>You are <%= !user.membership_status ? 'not' : null%> a member</p>
+                <p>You are <%= !user.is_admin ? 'not' : null%> an admin</p>
+                <a href="/logout">Logout</a>
+            </div>
+        </div>
+        <% if(!user.membership_status){ %>
+            <a href="/become-member">Become a member of the club</a>
+        <% }else{ %>
+            <% if(!user.is_admin){ %>
+                <a href="/become-admin">Become an admin of the club</a>
+            <% } %>
+        <% } %>
+    <% } %>
+</nav>

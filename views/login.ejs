@@ -2,14 +2,10 @@
 <html lang="en">
 <%- include('partials/head') %>
 <body>
-    <nav>
-        <div>
-            <span class="material-symbols-outlined">
-                home
-            </span>
-            <a href="/">Messages</a>
-        </div>
-    </nav>
+    <!-- No flashSuccess because that case redirects to / page-->
+    <!-- This page is /login-->
+    <%- include('partials/flash',{flash: flashError}) %>
+    <%- include('partials/nav') %>
     <main>
         <form action="/login" method="POST">
             <h1><%= title %></h1>
@@ -29,8 +25,8 @@
    
     
     
-    <%- include('partials/flash',{flash: flashError}) %>
-    <!-- No flashSuccess because that case redirects to / page-->
-    <!-- This page is /login-->
+    
+
+    <%- include('partials/btnAnimation') %>
 </body>
 </html>

@@ -3,53 +3,13 @@
 <%- include('partials/head') %>
 
 <body>
-    
-    
-    <nav>
-        <%- include('partials/flash',{flash: flashSuccess}) %>
-        <%- include('partials/flash',{flash: flashError}) %>
-        <% if(!locals.user){ %>
-            <div>
-                <span class="material-symbols-outlined">
-                    Login
-                </span><a href="/login">Login</a>
-            </div>
-            <div>
-                <span class="material-symbols-outlined">
-                    app_registration
-                </span><a href="/sign-up">Sign Up</a>
-            </div>
-        <% }else{ %>
-            <div class="account">
-                <div class="overview btn">
-                    <span class="material-symbols-outlined">
-                        account_circle
-                    </span>
-                    <p><%= user.first_name %></p>
-                </div>
-                <div class="info">
-                    <p><%= user.first_name %> <%= user.last_name %></p>
-                    <p><%= user.username %></p>
-                    <p>You are <%= !user.membership_status ? 'not' : null%> a member</p>
-                    <p>You are <%= !user.is_admin ? 'not' : null%> an admin</p>
-                    <a href="/logout">Logout</a>
-                </div>
-            </div>
-            
-            <% if(!user.membership_status){ %>
-                <a href="/become-member">Become a member of the club</a>
-            <% }else{ %>
-                <% if(!user.is_admin){ %>
-                    <a href="/become-admin">Become an admin of the club</a>
-                <% } %>
-            <% } %>
-        <% } %>
-    </nav>
-    
+    <%- include('partials/flash',{flash: flashSuccess}) %>
+    <%- include('partials/flash',{flash: flashError}) %>
+    <%- include('partials/nav') %>
     <% if(locals.user){ %>
         <div class="main title">
             <div class="info">
-                <h1><%= title %></h1>
+                <h2>Messages</h2>
                 <a href="/new-message" class="btn create">
                     <span class="material-symbols-outlined">
                         add
@@ -61,7 +21,7 @@
     <% }else{ %>
         <div class="main title">
             <div class="info">
-                <h1><%= title %></h1>
+                <h2>Messages</h2>
                 <a href="/new-message" class="disabled" title="Login to post a message">New message</a>
             </div>
         </div>       
@@ -71,7 +31,7 @@
         <% messages.forEach(message=>{ %>
             <article>
                 <div class="header">
-                    <h2><%= message.title %></h2>    
+                    <h3><%= message.title %></h3>    
                     <div>
                         <% if(!locals.user){ %>
                             <p class="author" title="Login and become a member to see this">
@@ -120,18 +80,26 @@
         
     </main>
     <script>
+        //overview btn animation
         const overview = document.querySelector('.overview')
         if(overview){
             overview.addEventListener('click',(e)=>{
+                e.stopPropagation()
                 overview.classList.toggle('active')
                 const account = document.querySelector('.account')
                 account.classList.toggle('active')
             })
         } 
-        /*
-        TODO: Agregar que la hacer click fuera del info 
-        que aparece al hacer click en overview se esconda la info
-        */
+
+        window.addEventListener('click',(e)=>{
+            const overview = document.querySelector('.overview')
+            const account = document.querySelector('.account')
+            if(overview.classList.contains('active')){
+                overview.classList.remove('active')
+                account.classList.remove('active')
+            }
+        })
     </script>
+    <%- include('partials/btnAnimation') %>
 </body>
 </html>

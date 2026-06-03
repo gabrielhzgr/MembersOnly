@@ -50,7 +50,7 @@ form > .field{
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
     width: 100%;
 }   
 
@@ -79,21 +79,16 @@ form p{
 }
 
 @keyframes flash {
-    0%{
-        top: -100%;
+    from{
+        height: 0px;
     }
 
-    50%{
-        top: 0%;
-    }
-
-    100%{
-        top: -100%;
+    to{
+        height: 100px;
     }
 }
 
 .flash{
-    position: absolute;
     width: 100%;
     height: 100px;
     animation: flash 3s forwards;
@@ -127,7 +122,7 @@ form p{
     position: absolute;
     width: 100%;
     height: 100px;
-    animation: permanent-flash 3s forwards;
+    animation: flash 3s forwards;
     z-index: 1;
     display: flex;
     align-items: center;
@@ -143,8 +138,6 @@ span.close{
     padding: 3px;
 }
 
-
-
 nav{
     position: relative;
     width: 100%;
@@ -155,8 +148,13 @@ nav{
     box-shadow: 5px 0px 5px grey;
     gap: 10px;
     padding: 5px;
-    background-color: whitesmoke;
-    
+    background-color: whitesmoke; 
+}
+
+nav h1{
+    font-style: italic;
+    position: absolute;
+    left: 10px;
 }
 
 nav div{
@@ -171,6 +169,7 @@ nav div{
     gap: 20px;
     padding: 10px;
 }
+
 .main.title{
     justify-content: center; 
     border-bottom: thin solid black;
@@ -193,7 +192,6 @@ nav div{
     display: flex;
     flex-direction: column;
     gap: 5px;
-    
     padding: 5px;
     position: relative;
     user-select: none;
@@ -219,8 +217,9 @@ nav div{
     display: flex;
     flex-direction: column;
     align-items: center;
-    top: 40px;
-    box-shadow: -4px 4px 0px grey;
+    text-wrap: nowrap;
+    top: 45px;
+    box-shadow: -4px 4px 0px black;
     border-radius: 15px;
     background-color: white;
     right: 5%;
@@ -236,20 +235,14 @@ nav div{
     transition: all 0.2s ease;
 }
 
-/*
-TODO: Refinar el estilo de los botones
-para que parezca que se aplasten al hacer 
-click no al hacer hover. Debo usar e.preventDefault()
-y e.click para estos links que son botones
-*/
-
 .btn.delete{
     border: medium solid darkred;
     background-color: white;
     color: darkred;
 }
 
-.btn.delete:hover{
+.btn.delete.active{
+    
     background-color: lightcoral;
     color: darkred;
     box-shadow: 0px 0px 6px darkred inset;
@@ -261,21 +254,21 @@ y e.click para estos links que son botones
     border: medium solid darkgreen;
 }
 
-.btn.create:hover{
+.btn.create.active{
     box-shadow: 0px 0px 6px darkgreen inset;
 }
 
-.btn:hover{
-    border: none;
-    box-shadow: none;
-}
-
-.overview:hover, .overview.active{
+.btn.overview.active{
     border: thin solid black;
     box-shadow: 0px 0px 0px black inset;
 }
 
-main > article h2{
+.btn.active{
+    border-width: thin;
+    box-shadow: none;
+}
+
+main > article h3{
     padding: 5px;
     background-color: black;
     color: white;
@@ -284,7 +277,6 @@ main > article h2{
 main > article:not(:last-child){
     margin-bottom: 20px;
 }
-
 
 article > .header{
     display: flex;
@@ -314,6 +306,10 @@ article p.date{
     background-color: snow;
     justify-content: flex-end;
     padding-right: 5px;
+}
+
+article p.message{
+    background-color: ghostwhite;
 }
 
 .disabled{

@@ -1,0 +1,21 @@
+
+<script>
+    document.querySelectorAll('a.btn').forEach(btn=>{
+        btn.addEventListener('mousedown',(e)=>{
+            btn.classList.add('active')
+        })
+
+        btn.addEventListener('mouseup',(e)=>{
+            btn.classList.remove('active')
+        })
+
+        let timesClicked = 0
+        btn.addEventListener('click',(e)=>{
+            timesClicked++
+            if(timesClicked==1){
+                e.preventDefault() 
+                e.target.click()
+            }
+        })
+    })
+</script>
