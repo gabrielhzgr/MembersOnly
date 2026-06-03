@@ -108,27 +108,6 @@ form p{
     color: darkred;
 }
 
-@keyframes permanent-flash {
-    0%{
-        bottom: -100px;
-    }
-
-    100%{
-        bottom: 0px;
-    }
-}
-
-.permanent-flash{
-    position: absolute;
-    width: 100%;
-    height: 100px;
-    animation: flash 3s forwards;
-    z-index: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
 span.close{
     position: absolute;
     top: 5px;
