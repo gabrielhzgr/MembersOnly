@@ -101,6 +101,10 @@ app.use((req,res,next)=>{
 
 app.use('/',indexRouter)
 
+app.use((req,res,next)=>{
+    res.status(404).render('404',{title: 'Not found'})
+})
+
 app.use((err, req, res, next)=>{
     console.log(err.message);
     res.status(err.statusCode || 500).render('errorPage', {title: 'Error', errorMessage: err.message})
