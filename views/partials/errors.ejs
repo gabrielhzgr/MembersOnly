@@ -1,9 +1,7 @@
 <% if(locals.errors){ %>
-    <ul>
+    <ul class="flash error">
         <% errors.forEach(error=>{ %>
             <li><%= error.msg %></li>
         <% }) %>
     </ul>
-    
-
 <% } %>
