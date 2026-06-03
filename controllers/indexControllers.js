@@ -63,6 +63,7 @@ const createUser = [validateUser, async (req,res,next)=>{
         await pool.query('INSERT INTO users(username, first_name, last_name, password, membership_status, is_admin) VALUES($1,$2,$3,$4,FALSE,FALSE)',
             [username, firstName, lastName, password]
         )
+        req.flash('success','You signed up successfully')
         res.redirect('/login')
     }catch(err){
         next(err)
@@ -78,61 +79,53 @@ function getLoginForm(req,res,next){
     }else{
         flashError = null
     }
-    res.render('login', {title: 'Login', flashError})
+
+    let flashSuccess = req.flash('success') //signed up success
+    if(flashSuccess.length>0){ 
+        flashSuccess = {type: 'flash success', messages: flashSuccess}
+    }else{
+        flashSuccess = null
+    }
+    res.render('login', {title: 'Login', flashSuccess, flashError})
 }
 
 const getBecomeMemberForm = (req,res,next)=>{
-    let flashError = req.flash('error') //incorrect answer
-    if(flashError.length>0){ 
-        flashError = {type: 'flash error', messages: flashError}
-    }else{
-        flashError = null
-    }
-    res.render('becomeMember',{title: 'Become a member', user: req.user, flashError})
+    res.render('becomeMember',{title: 'Become a member', user: req.user})
 }
 
 const  updateMemberStatus = [isAuth, async (req,res,next)=>{
     try {
         let { answer, userId}  = req.body
         userId = Number(userId)
-        if(answer.trim().toLowerCase().includes('wrong')){ //correct answer
-            await pool.query('UPDATE users SET membership_status=TRUE WHERE id=$1',
-                [userId])
-            req.flash('success', 'You became a member of the club!')
-            res.redirect('/')
-            return
+        if(!answer.trim().toLowerCase().includes('wrong')){ //incorrect answer
+            let flashError = {type: 'flash error', messages: ['Incorrect answer']}
+            return res.status(400).render('becomeMember', {title: 'Become a member', user: req.user, flashError})    
         }
-
-        req.flash('error','Your answer is incorrect') //incorrect answer
-        res.status(400).render('becomeMember', {title: 'Become a member', user: req.user})
+        await pool.query('UPDATE users SET membership_status=TRUE WHERE id=$1',
+        [userId])
+        req.flash('success', 'You became a member of the club!')
+        res.redirect('/')  
     } catch (err) {
         next(err)
     }
 }]
 
 const getBecomeAdminForm = (req,res,next)=>{
-    let flashError = req.flash('error') //incorrect answer
-    if(flashError.length>0){ 
-        flashError = {type: 'flash error', messages: flashError}
-    }else{
-        flashError = null
-    }
-    res.render('becomeAdmin', {title: 'Become an admin', user: req.user, flashError})
+    res.render('becomeAdmin', {title: 'Become an admin', user: req.user})
 }
 
 const updateAdminStatus = [isAuth, isMember, async(req,res,next)=>{
     try {
         let { answer, userId}  = req.body
         userId = Number(userId)
-        if(answer.trim().toLowerCase().includes('towel')){
-            await pool.query('UPDATE users SET is_admin=TRUE WHERE id=$1',
-                [userId])
-            req.flash('success', 'You became an admin of the club!')
-            res.redirect('/')
-            return
+        if(!answer.trim().toLowerCase().includes('towel')){
+            let flashError = {type: 'flash error', messages: ['Incorrect answer']}
+            return res.status(400).render('becomeAdmin', {title: 'Become an admin', user: req.user, flashError})      
         }
-        req.flash('error','Your answer is incorrect') //incorrect answers
-        res.status(400).render('becomeAdmin', {title: 'Become an admin', user: req.user})
+        await pool.query('UPDATE users SET is_admin=TRUE WHERE id=$1',
+                [userId])
+        req.flash('success', 'You became an admin of the club!')
+        res.redirect('/')
     } catch (err) {
         next(err)
     }

@@ -2,6 +2,8 @@
 <html lang="en">
 <%- include('partials/head') %>
 <body>
+    <%- include('partials/flash',{flash: locals.flashError}) %>
+    <%- include('partials/nav') %>
     <main>
         <% if(!locals.user){ %>
             <p>You must first <a href="/login">Login</a> to become an admin</p>

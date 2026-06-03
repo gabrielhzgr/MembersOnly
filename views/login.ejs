@@ -2,9 +2,8 @@
 <html lang="en">
 <%- include('partials/head') %>
 <body>
-    <!-- No flashSuccess because that case redirects to / page-->
-    <!-- This page is /login-->
     <%- include('partials/flash',{flash: flashError}) %>
+    <%- include('partials/flash',{flash: flashSuccess}) %>
     <%- include('partials/nav') %>
     <main>
         <form action="/login" method="POST">
@@ -19,14 +18,8 @@
             </div>   
             <button class="create btn">Login</button>
             <p>Don't have an account yet? <a href="/sign-up">Register here</a></p>
-    </form>
-
+        </form>
     </main>
-   
-    
-    
-    
-
     <%- include('partials/btnAnimation') %>
 </body>
 </html>

@@ -2,14 +2,7 @@
 <html lang="en">
 <%- include('partials/head') %>
 <body>
-    <nav>
-        <div>
-            <span class="material-symbols-outlined">
-                home
-            </span>
-            <a href="/">Messages</a>
-        </div>
-    </nav>
+    <%- include('partials/nav') %>
     <main>
         <form action="/new-message" method="POST">
             <h1><%= title %></h1>

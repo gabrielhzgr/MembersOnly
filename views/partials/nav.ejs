@@ -40,4 +40,25 @@
             <% } %>
         <% } %>
     <% } %>
+    <script>
+        //overview btn animation
+        const overview = document.querySelector('.overview')
+        if(overview){
+            overview.addEventListener('click',(e)=>{
+                e.stopPropagation()
+                overview.classList.toggle('active')
+                const account = document.querySelector('.account')
+                account.classList.toggle('active')
+            })
+        } 
+
+        window.addEventListener('click',(e)=>{
+            const overview = document.querySelector('.overview')
+            const account = document.querySelector('.account')
+            if(overview.classList.contains('active')){
+                overview.classList.remove('active')
+                account.classList.remove('active')
+            }
+        })
+    </script>
 </nav>
