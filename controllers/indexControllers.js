@@ -34,10 +34,6 @@ const validateUser = [
     body('username').trim()
         .isLength({min:1, max: 255}).withMessage('username must be 1 to 255 characters')
         .custom(async value=>{
-
-            //TODO: Ver porque esta verificacion no funciona 
-            //si intentas registrate con un username
-            //que ya existe en la db
             const {rows} = await pool.query('SELECT username FROM users WHERE username=$1',[value])
             if(rows.length>0){
                 throw new Error()
@@ -60,7 +56,8 @@ const createUser = [validateUser, async (req,res,next)=>{
     try{
         const errors = validationResult(req)
         if(!errors.isEmpty()){
-            res.status(400).render('signUp',{title: 'Sign Up', errors: errors.array()})
+            const messages = errors.array().map(obj=>obj.msg)
+            res.status(400).render('signUp',{title: 'Sign Up', flashError: {type: 'flash error', messages}})
             return
         }
         let {username, firstName, lastName, password} = req.body
@@ -76,20 +73,18 @@ const createUser = [validateUser, async (req,res,next)=>{
 }]
 
 function getLoginForm(req,res,next){
-    // if done(null, false) was called because pf wrong credentials 
-    //req.flash('error') will be an array
-    let flashError = req.flash('error') //login authentication error
-    if(flashError.length>0){ 
-        flashError = {type: 'flash error', messages: flashError}
-    }else{
-        flashError = null
-    }
-
     let flashSuccess = req.flash('success') //signed up success
     if(flashSuccess.length>0){ 
         flashSuccess = {type: 'flash success', messages: flashSuccess}
     }else{
         flashSuccess = null
+    }
+
+    let flashError = req.flash('error') //login authentication error
+    if(flashError.length>0){ 
+        flashError = {type: 'flash error', messages: flashError}
+    }else{
+        flashError = null
     }
     res.render('login', {title: 'Login', flashSuccess, flashError})
 }
@@ -149,12 +144,14 @@ const createMessage = [isAuth, validateMessage, async (req,res,next)=>{
     try {
         const errors = validationResult(req)
         if(!errors.isEmpty()){
-            res.render('newMessage',{title: 'New Message', errors: errors.array()})
+            const messages = errors.array().map(obj=>obj.msg)
+            res.render('newMessage',{title: 'New Message', flashError: {type: 'flash error', messages}})
             return
         }
         const {title, message} = req.body
         await pool.query('INSERT INTO messages(title, message, created_at, user_id) VALUES ($1, $2, $3, $4)',
         [title, message, new Date(), req.user.id])
+        req.flash('success', 'Posted message!')
         res.redirect('/')
     } catch (err) {
         next(err)
@@ -166,6 +163,7 @@ const deleteMessage = [isAdmin, async(req,res,next)=>{
         let { messageId } = req.params
         messageId = Number(messageId)
         await pool.query('DELETE FROM messages WHERE id=$1', [messageId])
+        req.flash('success', 'You deleted a message')
         res.redirect('/')
     } catch (err) {
         next(err)

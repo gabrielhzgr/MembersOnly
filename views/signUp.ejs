@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <%- include('partials/head') %>
-<%- include('partials/errors') %>
+
 <body>
+    <%- include('partials/flash', {flash: locals.flashError}) %>
     <%- include('partials/nav') %>
     <main>
         <form action="/sign-up" method="POST">

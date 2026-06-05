@@ -1,5 +1,10 @@
  <nav>
-    <h1>Members_Only</h1>
+    <h1>
+        <span class="material-symbols-outlined">
+                home
+        </span>
+        <a href="/">Members Only</a>
+    </h1>
     <% if(!locals.currentUser){ %>
         <div>
             <span class="material-symbols-outlined">
@@ -11,14 +16,9 @@
                 app_registration
             </span><a href="/sign-up">Sign Up</a>
         </div>
-        <div>
-            <span class="material-symbols-outlined">
-                home
-            </span><a href="/">Messages</a>
-        </div>
     <% }else{ %>
         <div class="account">
-            <div class="overview btn">
+            <div class="overview btn <%= currentUser.membership_status ? 'member' : null%> <%= currentUser.is_admin ? 'admin' : null%>">
                 <span class="material-symbols-outlined">
                     account_circle
                 </span>

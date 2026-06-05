@@ -2,8 +2,8 @@
 <html lang="en">
 <%- include('partials/head') %>
 <body>
-    <%- include('partials/flash',{flash: flashError}) %>
     <%- include('partials/flash',{flash: flashSuccess}) %>
+    <%- include('partials/flash',{flash: flashError}) %>
     <%- include('partials/nav') %>
     <main>
         <form action="/login" method="POST">
