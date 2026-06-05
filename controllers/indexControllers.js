@@ -34,7 +34,14 @@ const validateUser = [
     body('username').trim()
         .isLength({min:1, max: 255}).withMessage('username must be 1 to 255 characters')
         .custom(async value=>{
+
+            //TODO: Ver porque esta verificacion no funciona 
+            //si intentas registrate con un username
+            //que ya existe en la db
             const {rows} = await pool.query('SELECT username FROM users WHERE username=$1',[value])
+            if(rows.length>0){
+                throw new Error()
+            }
             return rows.length == 0
         }).withMessage('username already in use'),
     body('firstName').trim()
