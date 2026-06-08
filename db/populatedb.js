@@ -10,7 +10,7 @@ CREATE TABLE IF NOT EXISTS Users(
     membership_status BOOLEAN NOT NULL,
     is_admin BOOLEAN NOT NULL,
     first_name VARCHAR(255) NOT NULL,
-    last_name VARCHAR(255) NOT NULL
+    last_name VARCHAR(255)
 );
 
 CREATE TABLE IF NOT EXISTS Messages(

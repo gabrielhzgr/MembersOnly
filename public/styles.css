@@ -47,6 +47,11 @@ form > h1{
     margin-bottom: 30px;
 }
 
+form label::before{
+    content: '*';
+    color: red;
+}
+
 form > .field{
     display: flex;
     flex-direction: column;

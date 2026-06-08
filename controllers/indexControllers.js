@@ -41,11 +41,11 @@ const validateUser = [
             return rows.length == 0
         }).withMessage('username already in use'),
     body('firstName').trim()
-        .isLength({min:1, max: 255}).withMessage('First name must be 1 to 255 characters'),
+        .isLength({max: 255}).withMessage('First name must be 1 to 255 characters'),
     body('lastName').trim()
-        .isLength({min:1, max: 255}).withMessage('username must be 1 to 255 characters'),
+        .isLength({max: 255}).withMessage('username must be 1 to 255 characters'),
     body('password')
-        .isLength({min: 1, max: 255}).withMessage('username must be 1 to 255 characters'),
+        .isLength({min: 3, max: 255}).withMessage('username must be 3 to 255 characters'),
     body('confirm-password')
         .custom((value, {req})=>{
             return value == req.body.password
