@@ -41,7 +41,7 @@ const validateUser = [
             return rows.length == 0
         }).withMessage('username already in use'),
     body('firstName').trim()
-        .isLength({max: 255}).withMessage('First name must be 1 to 255 characters'),
+        .isLength({min:1, max: 255}).withMessage('First name must be 1 to 255 characters'),
     body('lastName').trim()
         .isLength({max: 255}).withMessage('username must be 1 to 255 characters'),
     body('password')
