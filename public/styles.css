@@ -47,7 +47,7 @@ form > h1{
     margin-bottom: 30px;
 }
 
-form label::before{
+form div:has(input:required) > label::before{
     content: '*';
     color: red;
 }
